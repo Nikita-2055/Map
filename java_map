@@ -1,0 +1,118 @@
+
+
+public class Map {
+    class Node{
+        int key;
+        int value;
+        Node next;
+        Node previous;
+        public Node(int k,int v){
+            key = k;
+            value = v;
+
+        }
+    }
+    public Node head;
+    public Node tail;
+    int count = 0;
+
+     void push(int k,int v){
+        Node s = new Node(k,v);
+        if (find(k)){
+            return;
+         }
+        if(head == null){
+            head = s;
+            tail = s;
+            count++;
+            return;
+        }else {
+            tail.next = s;
+            s.previous = tail;
+            tail = s;
+            count++;
+        }
+    }
+    boolean find(int k){
+         Node a = head;
+        while(a != null){
+            if(a.key == k){
+                return true;
+            }else {
+                a = a.next;
+            }
+        }
+        return false;
+    }
+    void remuve(int k){
+         Node a = head;
+         while(a != null){
+             if(a.key == k){
+                 a.previous.next = a.next;
+                 a.next.previous = a.previous;
+                 return;
+             }else {
+                 a = a.next;
+             }
+         }
+    }
+    Node find2(int k){
+         Node n = head;
+         while (n != null){
+             if(n.key == k){
+                 return n;
+             }
+             n = n.next;
+         }
+         return null;
+    }
+    void apdate(int k, int v){
+         Node a = find2(k);
+         if(a != null){
+             a.value = v;
+         }else {
+             push(k, 40);
+         }
+    }
+
+    public boolean equals(Map n2){
+         if(count != n2.count){
+             return false;
+         }
+         Node a = head;
+         Node b = n2.head;
+         for(int i = 0; i < count; i++){
+             if(a.key != b.key || a.value != b.value){
+                 return false;
+             }
+             a = a.next;
+             b = b.next;
+         }
+         return true;
+    }
+    void print(){
+         Node a = head;
+         while(a != null){
+             System.out.println("key"+a.key+" = "+" value"+a.value);
+             a = a.next;
+         }
+    }
+
+    int get(int k){
+         Node n = head;
+         while (n != null){
+             if(n.key == k){
+                 return n.value;
+             }
+             n = n.next;
+         }
+         return 0;
+    }
+    void printRvers(){
+         Node a = tail;
+         while (a != null){
+             System.out.println("key"+a.key+" = "+" value"+a.value);
+             a = a.previous;
+         }
+    }
+}

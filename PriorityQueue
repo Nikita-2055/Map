@@ -1,0 +1,114 @@
+class Node2{
+    int value;
+    Node2 next;
+    Node2 previous;
+    public Node2(int x){
+        value = x;
+    }
+}
+
+public class PriorityQueue {
+    public Node2 head;
+    public Node2 tail;
+    public int qanak = 0;
+    /*Node2 find(int x){
+        Node2 k = head;
+        while (k != null){
+            if(k.value > x){
+                return k;
+            }
+            k = k.next;
+        }
+        return null;
+    }
+     */
+
+    void push(int x){
+        Node2 n = new Node2(x);
+        if(head == null){
+            head = n;
+            tail = n;
+            qanak++;
+        }else{
+            if(n.value < head.value){
+                head.previous = n;
+                n.next = head;
+                head = n;
+                qanak++;
+                return;
+            }else if(n.value > tail.value){
+                tail.next = n;
+                n.previous = tail;
+                tail = n;
+                qanak++;
+                return;
+            }else{
+                /*Node2 k = head;
+                while(k != null){
+                    if(k.value > x){
+                        k.previous.next = n;
+                        n.previous = k.previous;
+                        n.next = k;
+                        k.previous = n;
+                        return;
+                    }
+                    k = k.next;
+                }
+                 */
+                /*Node2 k = tail;
+                while(k != null){
+                    if(k.value < x){
+                        k.next.previous = n;
+                        n.next = k.next;
+                        n.previous = k;
+                        k.next = n;
+                        return;
+                    }
+                    k = k.previous;
+                }
+                 */
+                Node2 k = tail;
+                while(k.value > x) {
+                    k = k.previous;
+                }
+                k.next.previous = n;
+                n.next = k.next;
+                n.previous = k;
+                k.next = n;
+                qanak++;
+            }
+        }
+    }
+
+    public boolean equals(PriorityQueue a){
+        if(qanak != a.qanak){
+            return false;
+        }
+        Node2 n = head;
+        Node2 m = a.head;
+        for(int i = 0; i < qanak; i++){
+            if(n.value != m.value){
+                return false;
+            }
+            n = n.next;
+            m = m.next;
+        }
+        return true;
+    }
+    void print(){
+        Node2 a = head;
+        System.out.println( "here--");
+        while(a != null){
+            System.out.println(a.value);
+            a = a.next;
+        }
+    }
+    void printrevers(){
+        Node2 b = tail;
+        System.out.println("revers:");
+        while(b != null){
+            System.out.println(b.value);
+            b = b.previous;
+        }
+    }
+}

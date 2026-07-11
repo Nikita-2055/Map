@@ -1,0 +1,60 @@
+class Nodes{
+    int value;
+    Nodes next;
+    Nodes previous;
+    public Nodes(int x){
+        value = x;
+    }
+}
+
+public class PriorityQueueFind {
+    public Nodes head;
+    public Nodes tail;
+    public int qanak = 0;
+    Nodes find(int x){
+        Nodes k = head;
+        while (k != null){
+            if(k.value > x){
+                return k;
+            }
+            k = k.next;
+        }
+        return null;
+    }
+
+    void push(int x){
+        Nodes n = new Nodes(x);
+        if(head == null){
+            head = n;
+            tail = n;
+        }else{
+            if(n.value < head.value){
+                head.previous = n;
+                n.next = head;
+                head = n;
+                return;
+            }else if(n.value > tail.value){
+                tail.next = n;
+                n.previous = tail;
+                tail = n;
+
+                return;
+            }else{
+                Nodes k = find(x);
+                k.previous.next = n;
+                n.previous = k.previous;
+                n.next = k;
+                k.previous = n;
+            }
+        }
+    }
+    void print(){
+        Nodes a = head;
+        System.out.println( "here--");
+        while(a != null){
+            System.out.println(a.value);
+
+            a = a.next;
+        }
+    }
+}

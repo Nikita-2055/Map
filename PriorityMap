@@ -1,0 +1,97 @@
+public class PriorityMap {
+    class Node{
+        int key;
+        int value;
+        Node next;
+        Node previous;
+        public Node(int k,int v){
+            key = k;
+            value = v;
+
+        }
+    }
+    public Node head;
+    public Node tail;
+    int count = 0;
+    int index = 0;
+
+    void push(int k,int v) {
+        if (find(k)) {
+            return;
+        }
+        Node s = new Node(k, v);
+        Node e = head;
+        if (head == null) {
+            head = s;
+            tail = s;
+            count++;
+            return;
+        }else if(s.key < head.key){
+            head.previous = s;
+            s.next = head;
+            head = s;
+            count++;
+            return;
+        }else if(s.key > tail.key){
+            tail.next = s;
+            s.previous = tail;
+            tail = s;
+            count++;
+            return;
+        }
+        else{
+            while(e != null){
+                if(s.key < e.key){
+                    e.previous.next = s;
+                    s.previous = e.previous;
+                    s.next = e;
+                    e.previous = s;
+                    return;
+                }
+                e = e.next;
+            }
+        }
+
+    }
+    boolean find(int k){
+        Node a = head;
+        while (a != null){
+            if(a.key == k){
+                return true;
+            }
+            a = a.next;
+        }
+        return false;
+    }
+    Zuyg pop(){
+        Zuyg j = new Zuyg(head.key, head.value);
+        head = head.next;
+        head.previous = null;
+        return j;
+    }
+
+
+
+
+    boolean equals(PriorityMap p){
+        if(count != p.count){
+            return false;
+        }
+        Node s = head;
+        Node c = p.head;
+        for(int i = 0; i < count; i++){
+            if(s.key != c.key || s.value != c.value){
+                return false;
+            }
+        }
+        return true;
+    }
+    void print(){
+        Node r = head;
+        while (r != null){
+            System.out.println("key = "+r.key+"  value = "+r.value);
+            r = r.next;
+        }
+    }
+
+}
